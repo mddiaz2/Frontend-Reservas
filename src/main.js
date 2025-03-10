@@ -4,15 +4,19 @@ import router from './router';
 import store from './store';
 import axios from 'axios';
 
-
 const app = createApp(App);
 
 // Configurar Axios para incluir token CSRF y JWT en solicitudes
 axios.defaults.baseURL = 'http://localhost:8080/api';
 axios.interceptors.request.use(config => {
-    const token = localStorage.getItem('jwt');
-    if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
+    if (!config.url.includes('/login')) {
+        const token = localStorage.getItem('jwt');
+        if (token) {
+            console.log('Token JWT enviado:', token); // Verifica el token
+            config.headers.Authorization = `Bearer ${token}`;
+        } else {
+            console.log('No se encontró token JWT'); // Verifica si no hay token
+        }
     }
     return config;
 });
