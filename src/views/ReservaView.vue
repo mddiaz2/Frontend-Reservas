@@ -9,7 +9,7 @@
         <button @click="eliminarReserva(reserva.id)">Eliminar</button>
       </li>
     </ul>
-    <button @click="crearReserva">Nueva Reserva</button>
+    <router-link to="/newreserva" class="btn btn-success">Crear Reserva</router-link>
   </div>
 </template>
 

@@ -5,11 +5,13 @@ import RegisterView from "@/views/RegisterView.vue";
 import DashboardView from "@/views/DashboardView.vue";
 import ReservaView from "@/views/ReservaView.vue";
 import HomeView from "@/components/HomeView.vue";
+import NewReserva from "@/views/NewReserva.vue";
 
 const routes = [
   { path: "/", component: HomeView },
   { path: "/login", component: LoginView }, // No requiere autenticación
   { path: "/register", component: RegisterView }, // No requiere autenticación
+  
   {
     path: "/dashboard",
     component: DashboardView,
@@ -18,6 +20,11 @@ const routes = [
   {
     path: "/reserva",
     component: ReservaView,
+    meta: { requiresAuth: true, requiredRole: 'INQUILINO' }, // Solo accesible para INQUILINO
+  },
+  {
+    path: "/newreserva",
+    component: NewReserva,
     meta: { requiresAuth: true, requiredRole: 'INQUILINO' }, // Solo accesible para INQUILINO
   },
   { path: "/:pathMatch(.*)*", redirect: "/" }, // Ruta comodín para redirigir a HomeView

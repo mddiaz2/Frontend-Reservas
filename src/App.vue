@@ -1,23 +1,30 @@
 <template>
-  <div>
-    <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
-    <router-view></router-view> 
+  <div id="app">
+    <AppHeader v-if="showHeader" />
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
+import AppHeader from "@/components/AppHeader.vue";
+import { computed } from "vue";
+import { useRoute } from "vue-router";
+
 export default {
-  name: 'App'
+  name: "App",
+  components: {
+    AppHeader,
+  },
+  setup() {
+    const route = useRoute();
+
+    // Definir rutas donde el Header NO se debe mostrar
+    const hiddenRoutes = ["/", "/login", "/register"];
+
+    // Oculta el Header si la ruta actual está en la lista de rutas ocultas
+    const showHeader = computed(() => !hiddenRoutes.includes(route.path));
+
+    return { showHeader };
+  },
 };
 </script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>

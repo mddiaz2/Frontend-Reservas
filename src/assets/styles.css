@@ -1,63 +1,63 @@
 body {
-    font-family: 'Poppins', sans-serif;
-    background-color: #f8f9fa;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+  font-family: "Poppins", sans-serif;
+  background-color: #f8f9fa;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 
 .container {
-    background: white;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    width: 90%;
-    max-width: 450px;
-    text-align: center;
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  width: 90%;
+  max-width: 450px;
+  text-align: center;
 }
 
 h1 {
-    color: #333;
-    font-size: 26px;
-    margin-bottom: 10px;
+  color: #333;
+  font-size: 26px;
+  margin-bottom: 10px;
 }
 
 p {
-    color: #555;
-    font-size: 16px;
-    margin-bottom: 20px;
+  color: #555;
+  font-size: 16px;
+  margin-bottom: 20px;
 }
 
 .button {
-    display: block;
-    width: 100%;
-    padding: 12px;
-    margin: 10px 0;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: all 0.3s ease-in-out;
-    text-decoration: none;
-    text-align: center;
+  display: block;
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.3s ease-in-out;
+  text-decoration: none;
+  text-align: center;
 }
 
 .button-primary {
-    background-color: #007bff;
-    color: white;
+  background-color: #007bff;
+  color: white;
 }
 
 .button-secondary {
-    background-color: #28a745;
-    color: white;
+  background-color: #28a745;
+  color: white;
 }
 
 .button:hover {
-    transform: scale(1.05);
-    opacity: 0.9;
+  transform: scale(1.05);
+  opacity: 0.9;
 }
 
 /* Contenedor principal */
@@ -186,4 +186,275 @@ button:hover:enabled {
 
 .message.success {
   color: green;
+}
+
+/* Estilos para un header fijo bien alineado */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  background-color: #7d93a6; /* Azul */
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Asegura que los elementos se separen */
+  padding: 0 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+/* Evita que el header se vea afectado por los estilos globales */
+.header * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Estilo del título "Bienvenido" */
+.header-title {
+  font-size: 18px;
+  font-weight: 600;
+  flex-grow: 1; /* Ocupa el espacio disponible */
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-left: 10px;
+}
+
+/* 🔥 CORRECCIÓN: Botón de cerrar sesión con tamaño fijo */
+.logout-btn {
+  background-color: #dc3545; /* Rojo */
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  width: auto; /* 🔹 Evita que se expanda */
+  max-width: 150px; /* 🔹 Tamaño máximo */
+  min-width: 120px; /* 🔹 Evita que sea demasiado pequeño */
+  text-align: center;
+  display: inline-block; /* 🔹 Evita que el botón ocupe todo el ancho */
+}
+
+/* Evitar que el botón se expanda */
+.logout-btn:focus,
+.logout-btn:active {
+  outline: none;
+  transform: none;
+}
+
+/* Efecto hover */
+.logout-btn:hover {
+  background-color: #c82333;
+  transform: scale(1.05);
+}
+
+/* 🔥 RESPONSIVIDAD */
+@media (max-width: 600px) {
+  .header {
+    padding: 0 10px;
+  }
+  .header-title {
+    font-size: 16px;
+  }
+  .logout-btn {
+    padding: 6px 12px;
+    font-size: 13px;
+    min-width: 100px;
+    max-width: 120px;
+  }
+}
+.reserva-container {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  width: 90%;
+  max-width: 600px;
+  text-align: center;
+  margin: auto;
+}
+
+/* Estilos de la lista */
+.reserva-list {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+}
+
+.reserva-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f9f9f9;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Grupo de botones */
+.button-group {
+  display: flex;
+  gap: 10px;
+}
+
+/* Estilos generales para botones */
+.btn {
+  display: inline-block;
+  padding: 10px 15px;
+  font-size: 14px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.3s ease;
+  font-weight: 600;
+}
+
+/* Botón azul */
+.btn-primary {
+  background-color: #007bff;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+}
+
+/* Botón verde */
+.btn-success {
+  background-color: #28a745;
+  color: white;
+  text-decoration: none;
+}
+
+.btn-success:hover {
+  background-color: #218838;
+}
+
+/* Botón amarillo */
+.btn-warning {
+  background-color: #ffc107;
+  color: black;
+}
+
+.btn-warning:hover {
+  background-color: #e0a800;
+}
+
+/* Botón rojo */
+.btn-danger {
+  background-color: #dc3545;
+  color: white;
+}
+
+.btn-danger:hover {
+  background-color: #c82333;
+}
+
+.page-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #dbeeff; /* Azul claro */
+  font-family: Arial, sans-serif;
+}
+
+/* Caja de reservas */
+.reserva-box {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 400px;
+  text-align: center;
+}
+
+/* Título */
+h2 {
+  margin-bottom: 20px;
+  color: #333;
+  font-size: 22px;
+}
+
+/* Grupo de entrada con icono */
+.input-group2 {
+  display: flex;
+  flex-direction: column;
+  background: #f9f9f9;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 10px;
+  margin-bottom: 15px;
+  position: relative;
+}
+
+.input-group2 label {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+/* Estilos para los inputs */
+.input-group2 select,
+.input-group2 input,
+.input-group2 textarea {
+  border: none;
+  outline: none;
+  background: transparent;
+  width: 100%;
+  font-size: 16px;
+  padding: 5px;
+}
+
+/* Contenedor del horario */
+.horario-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+/* Ajuste del textarea */
+.input-group textarea {
+  resize: none;
+  height: 60px;
+}
+
+/* Botón de reserva */
+button {
+  width: 100%;
+  padding: 12px;
+  background-color: #007bff; /* Azul principal */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+button:hover:enabled {
+  background-color: #0056b3;
+}
+
+/* Mensaje de confirmación */
+.mensaje {
+  margin-top: 15px;
+  font-size: 14px;
+  color: #007bff;
+  text-align: center;
 }

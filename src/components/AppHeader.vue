@@ -1,20 +1,21 @@
-// src/views/DashboardView.vue
 <template>
-  <div class="dashboard-container">
+    <header class="header">
+      <h1 class="header-title">Bienvenido, {{ email }}</h1>
+      <button @click="logout" class="logout-btn">
+        Cerrar Sesión
+      </button>
+    </header>
+  </template>
+  
+  <script>
 
-
-    <router-link to="/reserva" class="btn btn-success">Gestionar Reservas</router-link>
-  </div>
-</template>
-
-<script>
 import { ref } from 'vue';
 import { authService } from '@/services/authService';
 import { useRouter } from 'vue-router';
-
-export default {
-  name: "DashboardView",
-  setup() {
+  
+  export default {
+    name: "AppHeader",
+    setup() {
     const router = useRouter();
     const email = ref(localStorage.getItem('userEmail') || '');
 
@@ -25,5 +26,10 @@ export default {
 
     return { email, logout };
   }
-};
-</script>
+  };
+  </script>
+  
+  <style scoped>
+
+  </style>
+  
