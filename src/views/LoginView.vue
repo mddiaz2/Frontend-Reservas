@@ -12,7 +12,7 @@
       <!-- Campo de correo -->
       <div class="input-group">
         <i class="fa-solid fa-envelope"></i>
-        <input type="username" id="username" v-model="username" placeholder="Correo" required
+        <input type="username" id="username" v-model="username" placeholder="Usuario" required
           @input="sanitizeInput('username')" />
       </div>
 
