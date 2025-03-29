@@ -1,29 +1,34 @@
-// src/services/authService.js
 import axios from 'axios';
-import { decodeJWT } from '@/utils/jwtUtils'; // Importa la función para decodificar el token
+import { decodeJWT } from '@/utils/jwtUtils';
 
 const API_URL = 'http://localhost:8080/api/auth';
 
 export const authService = {
-  login(credentials) {
-    return axios.post(`${API_URL}/login`, credentials).then(response => {
-      if (response.data.accessToken) {
+  async login(credentials) {
+    try {
+      const response = await axios.post(`${API_URL}/login`, credentials);
+
+      if (response.status === 200 && response.data.accessToken) {
         const token = response.data.accessToken;
-        localStorage.setItem('jwt', token); // Almacena el token en localStorage
+        localStorage.setItem('jwt', token); // Guarda el token en localStorage
 
-        // Decodifica el token para obtener el rol y el correo electrónico
-        const decodedToken = decodeJWT(token);
-        if (decodedToken) {
-          localStorage.setItem('userRole', decodedToken.rol); // Almacena el rol
-          localStorage.setItem('userEmail', decodedToken.sub); // Almacena el correo electrónico
+        // Decodificar el token para obtener el rol y el usuario
+        const decoded = decodeJWT(token);
+        if (decoded) {
+          localStorage.setItem('userRole', decoded.rol);
+          localStorage.setItem('userEmail', decoded.sub);
         }
+
+        console.log("Login exitoso, token guardado:", token); // ✅ Log para ver el token
+        return response.data;  // ✅ Retorna la respuesta correctamente
+      } else {
+        throw new Error("Token no recibido del backend");
       }
-      return response.data;
-    });
+    } catch (error) {
+      console.error("Error en el login:", error); // Verificar el objeto de error completo
+      throw new Error("Credenciales incorrectas");
+    }
   },
-  
-
-
   logout() {
     localStorage.removeItem('jwt');
     localStorage.removeItem('userRole');
@@ -34,3 +39,4 @@ export const authService = {
     return !!localStorage.getItem('jwt');
   }
 };
+

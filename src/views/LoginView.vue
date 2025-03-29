@@ -1,5 +1,4 @@
 <template>
-
   <div class="login-box">
     <!-- Icono de usuario arriba -->
     <div class="user-icon">
@@ -12,30 +11,31 @@
       <!-- Campo de correo -->
       <div class="input-group">
         <i class="fa-solid fa-envelope"></i>
-        <input type="username" id="username" v-model="username" placeholder="Usuario" required
-          @input="sanitizeInput('username')" />
+        <input
+          type="text"
+          id="username"
+          v-model="username"
+          placeholder="Usuario"
+          required
+          @input="sanitizeInput"
+        />
       </div>
 
       <!-- Campo de contraseña con opción de mostrar/ocultar -->
       <div class="input-group">
         <i class="fa-solid fa-lock"></i>
-        <input :type="showPassword ? 'text' : 'password'" id="password" v-model="password" placeholder="Contraseña"
-          required @input="checkPassword" />
-        <i class="fa-solid" :class="showPassword ? 'fa-eye' : 'fa-eye-slash'" @click="togglePassword"></i>
-      </div>
-
-      <!-- Mensaje de validación de contraseña -->
-      <p v-if="passwordError" class="message error">
-        La contraseña debe contener mínimo 8 caracteres, una mayúscula, una minúscula, un número y un carácter especial.
-      </p>
-
-      <!-- Opciones adicionales -->
-      <div class="options">
-        <label>
-          <input type="checkbox" v-model="rememberMe" />
-          Recordarme
-        </label>
-        <a href="#">¿Olvidaste tu contraseña?</a>
+        <input
+          :type="showPassword ? 'text' : 'password'"
+          id="password"
+          v-model="password"
+          placeholder="Contraseña"
+          required
+        />
+        <i
+          class="fa-solid"
+          :class="showPassword ? 'fa-eye' : 'fa-eye-slash'"
+          @click="togglePassword"
+        ></i>
       </div>
 
       <!-- Botón de inicio de sesión -->
@@ -43,73 +43,75 @@
 
       <!-- Mensajes de error o éxito -->
       <p v-if="error" class="message error">{{ error }}</p>
-      <p v-if="message" class="message success">{{ message }}</p>
     </form>
   </div>
-
 </template>
 
-// src/views/LoginView.vue
 <script>
-import { ref, onMounted } from 'vue';
-import { authService } from '@/services/authService';
+import { ref } from 'vue';
+import { useStore } from 'vuex';           
 import { useRouter } from 'vue-router';
-import { validateInput, validatePassword } from '@/utils/validation'; // Importa las funciones de validación
+import { authService } from '@/services/authService';
 
 export default {
-  name: "LoginView",
+  name: 'LoginView',
   setup() {
+    const store = useStore();              
     const router = useRouter();
+
     const username = ref('');
     const password = ref('');
-    const passwordError = ref(false);
     const error = ref('');
-    const isAuthenticated = !!localStorage.getItem('jwt');
+    const isSubmitting = ref(false);
 
-    // Función para sanitizar el input
-    const sanitizeInput = (field) => {
-      if (field === 'username') {
-        username.value = validateInput(username.value); // Usa validateInput para sanitizar
-      }
+    // Función para sanitizar el input de usuario
+    const sanitizeInput = () => {
+      username.value = username.value.replace(/[^a-zA-Z0-9]/g, '');
     };
 
-    // Función para validar la contraseña
-    const checkPassword = () => {
-      passwordError.value = !validatePassword(password.value);
-    };
-
-    // Función para manejar el inicio de sesión
     const handleLogin = async () => {
-      if (passwordError.value) return;
+      isSubmitting.value = true;
       try {
-        await authService.login({ username: username.value, password: password.value });
-        router.push('/dashboard');
+        const response = await authService.login({
+          username: username.value,
+          password: password.value
+        });
+
+        const token = response.accessToken;
+        if (token) {
+          store.dispatch('login', token);
+
+          const userRole = localStorage.getItem("userRole");
+          if (userRole === "ADMIN") {
+            router.push("/dashboard");
+          } else if (userRole === "INQUILINO") {
+            router.push("/reserva");
+          } else {
+            router.push("/");
+          }
+
+          error.value = "";
+        } else {
+          error.value = "Error al procesar el token.";
+        }
+
       } catch (err) {
-        error.value = 'Credenciales incorrectas';
+        console.error("Error en el login:", err);
+        error.value = "Credenciales incorrectas";
+      } finally {
+        isSubmitting.value = false;
       }
     };
-
-    // Si el usuario ya está autenticado, redirige a la ruta correspondiente
-    onMounted(() => {
-      if (isAuthenticated) {
-        const userRole = localStorage.getItem('userRole');
-        if (userRole === 'ADMIN') {
-          router.push('/dashboard');
-        } else if (userRole === 'INQUILINO') {
-          router.push('/reserva');
-        }
-      }
-    });
 
     return {
       username,
       password,
-      passwordError,
       error,
-      sanitizeInput, // Retorna la función
-      checkPassword,
+      isSubmitting,
+      sanitizeInput,  // ✅ Retorna la función para usarla en el template
       handleLogin,
     };
-  }
+  },
 };
 </script>
+
