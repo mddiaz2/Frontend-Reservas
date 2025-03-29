@@ -16,6 +16,7 @@ export const authService = {
         const decoded = decodeJWT(token);
         if (decoded) {
           localStorage.setItem('userRole', decoded.rol);
+          localStorage.setItem('userId', decoded.id);
           localStorage.setItem('userEmail', decoded.sub);
         }
 
