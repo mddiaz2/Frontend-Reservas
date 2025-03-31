@@ -1,7 +1,7 @@
-import axios from 'axios';
-import { decodeJWT } from '@/utils/jwtUtils';
+import axios from "axios";
+import { decodeJWT } from "@/utils/jwtUtils";
 
-const API_URL = 'http://localhost:8080/api/auth';
+const API_URL = "http://localhost:8080/api/auth";
 
 export const authService = {
   async login(credentials) {
@@ -10,18 +10,18 @@ export const authService = {
 
       if (response.status === 200 && response.data.accessToken) {
         const token = response.data.accessToken;
-        localStorage.setItem('jwt', token); // Guarda el token en localStorage
+        localStorage.setItem("jwt", token); // Guarda el token en localStorage
 
         // Decodificar el token para obtener el rol y el usuario
         const decoded = decodeJWT(token);
         if (decoded) {
-          localStorage.setItem('userRole', decoded.rol);
-          localStorage.setItem('userId', decoded.id);
-          localStorage.setItem('userEmail', decoded.sub);
+          localStorage.setItem("userRole", decoded.rol);
+          localStorage.setItem("userId", decoded.id);
+          localStorage.setItem("userEmail", decoded.sub);
         }
 
         console.log("Login exitoso, token guardado:", token); // ✅ Log para ver el token
-        return response.data;  // ✅ Retorna la respuesta correctamente
+        return response.data; // ✅ Retorna la respuesta correctamente
       } else {
         throw new Error("Token no recibido del backend");
       }
@@ -31,13 +31,12 @@ export const authService = {
     }
   },
   logout() {
-    localStorage.removeItem('jwt');
-    localStorage.removeItem('userRole');
-    localStorage.removeItem('userEmail');
+    localStorage.removeItem("jwt");
+    localStorage.removeItem("userRole");
+    localStorage.removeItem("userEmail");
   },
 
   isAuthenticated() {
-    return !!localStorage.getItem('jwt');
-  }
+    return !!localStorage.getItem("jwt");
+  },
 };
-
