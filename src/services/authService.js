@@ -1,7 +1,7 @@
 import axios from "axios";
 import { decodeJWT } from "@/utils/jwtUtils";
 
-const API_URL = "http://localhost:8080/api/auth";
+const API_URL = "https://54.226.12.49:443/api/auth";
 
 export const authService = {
   async loginStep1(credentials) {

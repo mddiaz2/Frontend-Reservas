@@ -7,7 +7,7 @@ import axios from 'axios';
 const app = createApp(App);
 
 // Configurar Axios para incluir token CSRF y JWT en solicitudes
-axios.defaults.baseURL = 'http://localhost:8080/api';
+axios.defaults.baseURL = 'https://54.226.12.49:443/api';
 axios.interceptors.request.use(config => {
     if (!config.url.includes('/login')) {
         const token = localStorage.getItem('jwt');

@@ -1,7 +1,7 @@
 // src/services/reservaService.js
 import axios from 'axios';
 
-const API_URL = 'http://localhost:8080/api/reservas';
+const API_URL = 'https://54.226.12.49:443/api/reservas';
 
 export const reservaService = {
   getReservas() {
