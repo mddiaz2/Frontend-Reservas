@@ -1,36 +1,45 @@
-// src/services/authService.js
-import axios from 'axios';
-import { decodeJWT } from '@/utils/jwtUtils'; // Importa la función para decodificar el token
+import axios from "axios";
+import { decodeJWT } from "@/utils/jwtUtils";
 
-const API_URL = 'http://localhost:8080/api/auth';
+const API_URL = "https://54.226.12.49:443/api/auth";
 
 export const authService = {
-  login(credentials) {
-    return axios.post(`${API_URL}/login`, credentials).then(response => {
-      if (response.data.accessToken) {
-        const token = response.data.accessToken;
-        localStorage.setItem('jwt', token); // Almacena el token en localStorage
-
-        // Decodifica el token para obtener el rol y el correo electrónico
-        const decodedToken = decodeJWT(token);
-        if (decodedToken) {
-          localStorage.setItem('userRole', decodedToken.rol); // Almacena el rol
-          localStorage.setItem('userEmail', decodedToken.sub); // Almacena el correo electrónico
-        }
-      }
-      return response.data;
-    });
+  async loginStep1(credentials) {
+    try {
+      const response = await axios.post(`${API_URL}/login`, credentials);
+      return response.data; // "OTP enviado correctamente"
+    } catch (error) {
+      throw new Error(error.response?.data || "Credenciales incorrectas");
+    }
   },
-  
 
+  async verifyOtp(otpPayload) {
+    try {
+      const response = await axios.post(`${API_URL}/verify-otp`, otpPayload);
+      const token = response.data.accessToken;
+
+
+      // Guardar el token y extraer info del usuario
+      localStorage.setItem("jwt", token);
+      const decoded = decodeJWT(token);
+      if (decoded) {
+        localStorage.setItem("userRole", decoded.rol);
+        localStorage.setItem("userId", decoded.id);
+        localStorage.setItem("userEmail", decoded.sub);
+      }
+
+      return token;
+    } catch (error) {
+      throw new Error(error.response?.data || "OTP inválido");
+    }
+  },
 
   logout() {
-    localStorage.removeItem('jwt');
-    localStorage.removeItem('userRole');
-    localStorage.removeItem('userEmail');
+    localStorage.clear();
   },
 
   isAuthenticated() {
-    return !!localStorage.getItem('jwt');
-  }
+    return !!localStorage.getItem("jwt");
+  },
 };
+
